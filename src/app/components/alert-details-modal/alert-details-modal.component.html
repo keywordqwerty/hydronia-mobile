@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ alert.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-chip [color]="getAlertColor(alert.type)">{{ alert.type | titlecase }}</ion-chip>
+  <div class="alert-details-modal">
+    <p>{{ alert.message }}</p>
+    <p><strong>Row:</strong> {{ alert.row }}, <strong>Cycle:</strong> {{ alert.cycle }}</p>
+    <p><strong>Time:</strong> {{ getTimeAgo(alert.timestamp) }}</p>
+  </div>
+  <ion-button expand="block" color="success" (click)="acknowledge()">
+    Acknowledge
+  </ion-button>

@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>System Alerts</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="alerts-modal-content">
+  
+  <!-- Alert Tabs -->
+  <ion-segment value="active" [(ngModel)]="selectedTab" (ionChange)="segmentChanged($event)" class="alert-tabs">
+    <ion-segment-button value="active">
+      <ion-label>Active ({{ activeAlerts.length }})</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="dismissed">
+      <ion-label>Dismissed ({{ dismissedAlerts.length }})</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Active Alerts Tab -->
+  <div *ngIf="selectedTab === 'active'">
+    
+        <!-- Active Alerts List (Wireframe style) -->
+    <ion-list *ngIf="activeAlerts.length > 0">
+      <ion-item-sliding *ngFor="let alert of activeAlerts">
+        <ion-item (click)="openAlertDetails(alert)">
+          <ion-chip [color]="getAlertColor(alert.type)" slot="start">{{ alert.type | titlecase }}</ion-chip>
+          <ion-label>
+            <div class="alert-title">{{ alert.title }}</div>
+            <div class="alert-meta">{{ getTimeAgo(alert.timestamp) }}</div>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="success" (click)="dismissAlert(alert.id)">
+            <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+            Acknowledge
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <!-- No Active Alerts -->
+    <div class="no-alerts" *ngIf="activeAlerts.length === 0">
+      <ion-icon name="checkmark-circle-outline" color="success" size="large"></ion-icon>
+      <h3>All Clear!</h3>
+      <p>No active alerts at this time.</p>
+    </div>
+  </div>
+
+  <!-- Dismissed Alerts Tab -->
+  <div *ngIf="selectedTab === 'dismissed'">
+    
+    <!-- Dismissed Alerts List -->
+    <div class="dismissed-alerts" *ngIf="dismissedAlerts.length > 0">
+      <ion-card *ngFor="let alert of dismissedAlerts" class="alert-card dismissed">
+        <ion-card-header>
+          <div class="alert-header">
+            <div class="alert-info">
+              <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+              <div class="alert-details">
+                <ion-card-title class="alert-title">{{ alert.title }}</ion-card-title>
+                <ion-card-subtitle class="alert-meta">
+                  Dismissed • Row {{ alert.row }}, Cycle {{ alert.cycle }} • {{ getTimeAgo(alert.timestamp) }}
+                </ion-card-subtitle>
+              </div>
+            </div>
+            <ion-button 
+              fill="clear" 
+              size="small" 
+              color="medium"
+              (click)="restoreAlert(alert.id)">
+              <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="alert-message dismissed-text">{{ alert.message }}</p>
+          
+          <!-- Restore Action -->
+          <div class="alert-actions">
+            <ion-button 
+              size="small" 
+              fill="outline" 
+              color="medium"
+              (click)="restoreAlert(alert.id)">
+              <ion-icon name="refresh-outline" slot="start"></ion-icon>
+              Restore Alert
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Clear Dismissed Button -->
+      <div class="bulk-actions" *ngIf="dismissedAlerts.length > 0">
+        <ion-button 
+          expand="block" 
+          fill="outline" 
+          color="danger"
+          (click)="clearDismissedAlerts()">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Clear All Dismissed Alerts
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- No Dismissed Alerts -->
+    <div class="no-alerts" *ngIf="dismissedAlerts.length === 0">
+      <ion-icon name="archive-outline" color="medium" size="large"></ion-icon>
+      <h3>No Dismissed Alerts</h3>
+      <p>Acknowledged alerts will appear here.</p>
+    </div>
+  </div>
+
+  <!-- Predictions Section (Optional) -->
+ <!-- <div class="predictions-section" *ngIf="selectedTab === 'active'">
+    <ion-card class="prediction-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="analytics-outline" color="primary"></ion-icon>
+          System Predictions
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="prediction-content">
+          <div class="prediction-message">{{ predictionData.message }}</div>
+          <div class="confidence-indicator">
+            <span class="confidence-label">Confidence:</span>
+            <div class="confidence-bar">
+              <div class="confidence-fill" [style.width.%]="predictionData.confidence"></div>
+            </div>
+            <span class="confidence-value">{{ predictionData.confidence }}%</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>-->
+
+
+    
+</ion-content>

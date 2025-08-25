@@ -1,0 +1,167 @@
+ion-header{
+  padding-top: var(--ion-safe-area-top);
+}
+
+ion-toolbar {
+  min-height:  85px;
+  padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available
+  --background: #f4fde8 !important;
+}
+
+.manual-logs-container {
+  padding: 1rem;
+  background: linear-gradient(135deg, #eeffee 0%, #f4fde8 100%);
+  min-height: 100vh;
+}
+
+.info-card, .logs-card, .quick-actions-card {
+  margin-bottom: 1rem;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 2rem;
+  
+  ion-spinner {
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    color: #666;
+    margin: 0;
+  }
+}
+
+.logs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.log-entry {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #2a922f;
+  position: relative;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.log-type-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  ion-icon {
+    font-size: 1.2em;
+  }
+}
+
+.log-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.log-content {
+  .log-message {
+    font-size: 1rem;
+    color: #333;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+  }
+  
+  .log-metadata {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  
+  .log-date, .log-row-cycle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+    
+    ion-icon {
+      font-size: 1em;
+    }
+  }
+}
+
+.no-logs {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+  
+  ion-icon {
+    margin-bottom: 1rem;
+  }
+  
+  h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+  }
+  
+  p {
+    margin: 0 0 2rem 0;
+    line-height: 1.5;
+  }
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.8rem;
+  
+  ion-button {
+    --padding-start: 0.8rem;
+    --padding-end: 0.8rem;
+    font-size: 0.9rem;
+    text-transform: none;
+    
+    ion-icon {
+      font-size: 1.2em;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .log-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .log-actions {
+    align-self: flex-end;
+  }
+}

@@ -1,0 +1,213 @@
+<ion-header [class.hide-header]="headerHidden">
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
+     <div class="alerts-top-row" slot="end">
+        <ion-icon name="notifications-outline" (click)="openAlertsModal()" class="alerts-icon"></ion-icon>
+        <span class="alerts-count">{{ getActiveAlertCount() }}</span>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)">
+  <div class="wrapper">
+
+   
+    <div class="cardDiv">
+     
+
+      <!--MONITORING ROW-->
+      <ion-card class="row-selection-card">
+        <ion-card-content>
+          <div class="row-cycle-flex">
+            <!-- Left half: Monitoring Row (row & cycle buttons) -->
+            <div class="row-cycle-left">
+              <div>
+                <div class="row-btn-label">Row</div>
+                <div class="row-btn-group">
+                  <ion-button class="row-btn" [class.active]="currentRow === 1" (click)="selectRow(1)" fill="outline">1</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentRow === 2" (click)="selectRow(2)" fill="outline">2</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentRow === 3" (click)="selectRow(3)" fill="outline">3</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentRow === 4" (click)="selectRow(4)" fill="outline">4</ion-button>
+                </div>
+              </div>
+              <div style="margin-top: 12px;">
+                <div class="row-btn-label">Cycle</div>
+                <div class="row-btn-group">
+                  <ion-button class="row-btn" [class.active]="currentCycle === 1" (click)="selectCycle(1)" fill="outline">1</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentCycle === 2" (click)="selectCycle(2)" fill="outline">2</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentCycle === 3" (click)="selectCycle(3)" fill="outline">3</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentCycle === 4" (click)="selectCycle(4)" fill="outline">4</ion-button>
+                </div>
+              </div>
+            </div>
+            <!-- Divider -->
+            <div class="row-cycle-divider"></div>
+            <!-- Right half: Active Crop Cycle -->
+            <div class="row-cycle-right">
+              <div class="other-content">
+                <div class="active-crop-info">
+                  <div class="active-crop-subtitle">Green lettuce 2024-01</div>
+                  <div class="active-crop-title">Active Crop Cycle</div>
+                  <div>
+                    Started: {{ formatDate(cropCycleData.startDate) }}
+                    <br><br>
+                    Expected Harvest: {{ formatDate(cropCycleData.expectedHarvestDate) }}
+                    <br>
+                    <div class="card-highlight">
+                      Day {{ cropCycleData.currentDay }} of {{ cropCycleData.totalDays }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>        
+
+
+     
+     
+
+     
+      <!-- HORIZONTAL SCROLLABLE METRICS CARDS -->
+      <div class="metrics-scroll-row">
+        <ion-card *ngFor="let metric of liveMetrics"  class="metric-card">
+          <ion-card-content>
+            <div class="metric-label">{{ metric.label }}</div>
+            <div class="metric-value" [ngClass]="metric.statusColor">  {{ metric.value }}</div>
+            <div class="metric-unit">{{ metric.unit }}</div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <!-- END HORIZONTAL SCROLLABLE METRICS CARDS -->
+
+      <!-- MINI-CHARTS SECTION -->
+      <swiper-container
+        slides-per-view="auto"
+        space-between="8"
+        free-mode="true"
+      >
+        <swiper-slide *ngFor="let metric of chartMetrics">
+          <button
+            class="mini-chart-btn"
+            [class.active]="selectedMetric === metric.key"
+            (click)="selectedMetric = metric.key"
+            type="button"
+          >
+            {{ metric.label }}
+          </button>
+        </swiper-slide>
+      </swiper-container>
+
+        <div class="mini-charts-section">
+          <div *ngFor="let metric of chartMetrics">
+            <div *ngIf="selectedMetric === metric.key">
+              <div class="mini-chart-title">
+                {{ metric.label }}
+              </div>
+              <canvas baseChart
+                [datasets]="miniChartData[metric.key]?.datasets"
+                [labels]="miniChartData[metric.key]?.labels"
+                [options]="miniChartOptions"
+                [legend]="false"
+                [type]="'line'">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      <!-- END MINI-CHARTS SECTION -->
+
+          <!-- LATEST IMAGES -->
+    <ion-card class="latest-images-card">
+      <ion-card-header>
+        <ion-card-title>Latest Images</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-slides [options]="imageCarouselOptions">
+          <ion-slide *ngFor="let img of latestImages">
+            <div class="carousel-image-container" (click)="openImageModal(img)">
+              <img [src]="img.image_url" [alt]="img.date" class="carousel-image" />
+              <ion-badge class="anomaly-badge" [color]="img.anomaly ? 'danger' : 'success'">
+                {{ img.anomaly ? 'Anomaly' : 'Normal' }}
+              </ion-badge>
+            </div>
+            <div class="carousel-date">{{ img.date | date:'short' }}</div>
+          </ion-slide>
+        </ion-slides>
+        <div *ngIf="latestImages.length === 0">No images found.</div>
+      </ion-card-content>
+    </ion-card>
+    <!-- LATEST IMAGES -->
+
+    <!-- IMAGE ENLARGE -->
+    <ion-modal [isOpen]="showImageModal" (didDismiss)="closeImageModal()">
+      <ng-template>
+        <ion-content>
+          <div class="modal-image-container">
+            <img [src]="selectedImage?.image_url" alt="Plant" class="modal-image" />
+            <div class="carousel-date">{{ selectedImage?.date | date:'medium' }}</div>
+            <ion-badge [color]="selectedImage?.anomaly ? 'danger' : 'success'">
+              {{ selectedImage?.anomaly ? 'Anomaly' : 'Normal' }}
+            </ion-badge>
+            <ion-button expand="block" fill="outline" color="medium" (click)="closeImageModal()">
+              Close
+            </ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+     <!-- IMAGE ENLARGE --> 
+    
+    <!-- UPCOMING RISK CARD -->
+      <ion-card class="risk-card">
+        <ion-card-header>
+          <ion-card-title>Upcoming Risk</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="riskLoading">
+            <ion-spinner name="dots"></ion-spinner> Loading risk prediction...
+          </div>
+          <div *ngIf="riskError">
+            <ion-icon name="warning-outline" color="danger"></ion-icon> {{ riskError }}
+          </div>
+          <div *ngIf="upcomingRisk && !riskLoading">
+            <div *ngIf="upcomingRisk && !riskLoading">
+              <b>
+                {{ upcomingRisk.label }}
+                <span *ngIf="upcomingRisk.confidence">({{ upcomingRisk.confidence }}%)</span>
+                | {{ upcomingRisk.fuzzy_risk }}
+              </b>
+            </div>
+          </div>
+          <ion-button expand="block" (click)="runPredictions()" color="primary" style="margin-top: 12px;">
+            Run Predictions
+          </ion-button>
+        </ion-card-content>
+      </ion-card>  
+      
+    </div>
+  </div>
+</ion-content>
+
+
+      <ion-tab-bar color="light">
+  <ion-tab-button tab="live-monitoring" (click)="navigateToLiveMonitoring()">
+    <ion-icon name="water-outline"></ion-icon>
+    <ion-label>Live Monitoring</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="plant-images" (click)="navigateToPlantImages()">
+    <ion-icon name="leaf-outline"></ion-icon>
+    <ion-label>Plant Images</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="predictions" (click)="navigateToPredictions()">
+    <ion-icon name="analytics-outline"></ion-icon>
+    <ion-label>Predictions</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button tab="manual-logs" (click)="navigateToManualLogs()">
+    <ion-icon name="document-text-outline"></ion-icon>
+    <ion-label>Manual Logs</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

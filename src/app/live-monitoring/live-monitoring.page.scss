@@ -1,0 +1,178 @@
+ion-header{
+  padding-top: var(--ion-safe-area-top);
+}
+
+ion-toolbar {
+  min-height:  85px;
+  padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available
+  --background: #f4fde8 !important;
+}
+
+.wrapper {
+   background: linear-gradient(135deg, #eeffee 0%, #f4fde8 100%);
+   min-height: 100vh;
+  padding: 1rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: right;
+  margin: 1.5rem 0 1rem 1rem;
+  color: #2a3d66;
+}
+
+.monitoring-card {
+  margin-bottom: 1rem;
+}
+
+.chart-container {
+  height: 400px;
+  width: 100%;
+}
+
+.sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+ion-card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 4px;
+  text-align: right;
+}
+
+
+.sensor-card {
+  height: 150px;
+  width: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  text-align: center;
+  border-radius: 10%;
+}
+
+.sensor-item {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  
+  .sensor-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+  
+  .sensor-value {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 0px;
+}
+}
+
+.sensor-val-content {
+  position: absolute;
+  top: 50px;      // adjust as needed
+  left: 60px;     // adjust as needed
+  width: fit-content;
+}
+
+//row buttons
+.row-selection-card {
+  margin-bottom: 1rem;
+  border-radius: 10%;
+  .row-btn-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    .row-btn {
+      flex: 1;
+      min-width: 10px;
+      --border-color: #e0e0e0;
+      --color: #666666;
+      --background: transparent;
+      
+      &.active {
+        --background: #2a922f;
+        --color: white;
+        --border-color: #2a922f;
+        font-weight: bold;
+      }
+      
+      &:hover {
+        --background: rgba(42, 146, 47, 0.1);
+        --color: #2a922f;
+      }
+    }
+  }
+}
+
+
+//test
+.row-cycle-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+
+.row-cycle-left, .row-cycle-right {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: -0.5rem 0;
+}
+
+.row-cycle-divider {
+  width: 2px;
+  background: green;
+  margin: 0 12px;
+  border-radius: 2px;
+}
+
+.row-btn-label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-align: center;
+  font: bold;
+  color: #000000;
+}
+
+.sensor-icon {
+  font-size: 3.2rem;
+  color: #2a922f;
+  margin-bottom: 4px;
+  display: block;
+  margin-left: -1rem;
+  margin-right: auto;
+  
+}
+
+
+
+
+
+
+//back button
+.custom-back-row {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(135deg, #eeffee 0%, #f4fde8 100%);
+  padding: 1rem 0 0 1rem;
+  display: flex;
+  align-items: center;
+}

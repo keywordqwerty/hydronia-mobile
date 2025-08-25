@@ -1,0 +1,211 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Plant Images</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="wrapper">
+
+    <!-- Row & Cycle Selection Card -->
+    <ion-card class="row-selection-card">
+      <ion-card-content>
+        <div class="row-cycle-flex">
+          <!-- Left half: Row & Cycle buttons -->
+          <div class="row-cycle-left">
+            <div>
+              <div class="row-btn-label">Row</div>
+              <div class="row-btn-group">
+                <ion-button class="row-btn" [class.active]="currentRow === 1" (click)="selectRow(1)" fill="outline">1</ion-button>
+                <ion-button class="row-btn" [class.active]="currentRow === 2" (click)="selectRow(2)" fill="outline">2</ion-button>
+                <ion-button class="row-btn" [class.active]="currentRow === 3" (click)="selectRow(3)" fill="outline">3</ion-button>
+                <ion-button class="row-btn" [class.active]="currentRow === 4" (click)="selectRow(4)" fill="outline">4</ion-button>
+              </div>
+            </div>
+            <div style="margin-top: 12px;">
+              <div class="row-btn-label">Cycle</div>
+              <div class="row-btn-group">
+                <ion-button class="row-btn" [class.active]="currentCycle === 1" (click)="selectCycle(1)" fill="outline">1</ion-button>
+                <ion-button class="row-btn" [class.active]="currentCycle === 2" (click)="selectCycle(2)" fill="outline">2</ion-button>
+                <ion-button class="row-btn" [class.active]="currentCycle === 3" (click)="selectCycle(3)" fill="outline">3</ion-button>
+                <ion-button class="row-btn" [class.active]="currentCycle === 4" (click)="selectCycle(4)" fill="outline">4</ion-button>
+              </div>
+            </div>
+          </div>
+          <!-- Divider -->
+          <div class="row-cycle-divider"></div>
+          <!-- Right half: Date selection -->
+          <div class="row-cycle-right">
+            <div>
+    <div class="row-btn-label">Date Range</div>
+    <div class="row-btn-group date-range-group">
+      <ion-select class="row-btn date-btn" interface="popover" [(ngModel)]="dateRange.month" placeholder="MM">
+        <ion-select-option *ngFor="let m of months" [value]="m.value">{{ m.label }}</ion-select-option>
+      </ion-select>
+      <ion-select class="row-btn date-btn" interface="popover" [(ngModel)]="dateRange.day" placeholder="DD">
+        <ion-select-option *ngFor="let d of days" [value]="d">{{ d < 10 ? '0' + d : d }}</ion-select-option>
+      </ion-select>
+      <ion-select class="row-btn date-btn" interface="popover" [(ngModel)]="dateRange.year" placeholder="YY">
+        <ion-select-option *ngFor="let y of years" [value]="y">{{ y }}</ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+</div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <!--CYCLE PICKER-->
+    
+        <!-- Queued Images Card (add here) -->
+    <ion-card *ngIf="queuedImages.length > 0">
+      <ion-card-header>
+        <ion-card-title>Images Queued for Upload</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngFor="let img of queuedImages">
+          <img [src]="img.image_url" style="max-width: 100px;">
+          <span>{{ img.date }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Latest Plant Image Card -->
+    <ion-card class="plantImages-card">
+      <ion-card-header>
+        <ion-card-title>Latest Plant Image</ion-card-title>
+        <ion-card-subtitle>Row {{ currentRow }} - Cycle {{ currentCycle }}</ion-card-subtitle>
+      </ion-card-header>
+      <div class="plant-image-container">
+        <img [src]="latestPlantImage || 'assets/pictures/lettuceO.jpg'" alt="Latest Plant" class="plant-image" />
+        <div class="capture-date-overlay">
+          {{ lastCaptureDate || '7/11/2025 3:46:56 AM' }}
+        </div>
+      </div>
+      <ion-card-content class="plant-image-actions">
+        <ion-button expand="block" color="success" (click)="captureNewImage()">
+          <ion-icon name="camera-outline" slot="start"></ion-icon>
+          Capture Now
+        </ion-button>
+        <ion-button expand="block" fill="outline" color="secondary" (click)="uploadFromGallery()">
+          <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+          Upload from Gallery
+        </ion-button>
+        <ion-button expand="block" fill="outline" color="success" (click)="viewImageHistory()">
+          <ion-icon name="images-outline" slot="start"></ion-icon>
+          View History
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- AI Health Analysis Card -->
+    <!--<ion-card class="ai-health-analysis-card">
+      <ion-card-header>
+        <ion-card-title>AI Health Analysis</ion-card-title>
+        <ion-card-subtitle>Plant health assessment</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="health-score-section">
+          <div class="health-score-display">
+            <span class="health-score">{{ healthData.overallScore }}</span>
+            <span class="health-score-total">/100</span>
+          </div>
+          <div class="health-bar-container">
+            <div class="health-bar">
+              <div class="health-bar-fill" 
+                   [style.width.%]="healthData.overallScore"
+                   [style.background-color]="getHealthColor(healthData.overallScore)">
+              </div>
+            </div>
+            <p class="health-status">{{ getHealthStatus(healthData.overallScore) }}</p>
+          </div>
+        </div>
+
+        <div class="detected-conditions">
+          <h4>Detected Conditions:</h4>
+          <div class="conditions-list">
+            <div class="condition-item" *ngFor="let condition of healthData.detectedConditions">
+              <ion-icon [name]="getConditionIcon(condition.severity)" 
+                        [color]="getConditionColor(condition.severity)"></ion-icon>
+              <div class="condition-details">
+                <span class="condition-name">{{ condition.name }}</span>
+                <span class="condition-severity">{{ condition.severity }}</span>
+              </div>
+            </div>
+            <div class="no-conditions" *ngIf="healthData.detectedConditions.length === 0">
+              <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+              <span>No health issues detected</span>
+            </div>
+          </div>
+        </div>
+
+        <ion-button expand="block" fill="outline" color="primary" (click)="refreshHealthAnalysis()">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Refresh Analysis
+        </ion-button>
+      </ion-card-content>
+    </ion-card> -->
+
+    <!-- Image History Card (if viewing history) -->
+    <ion-card *ngIf="showImageHistory" class="image-history-card">
+      <ion-card-header>
+        <ion-card-title>Image History</ion-card-title>
+        <ion-card-subtitle>Previous plant images</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+
+        <!--filter the anomalies etc-->
+        <ion-segment [(ngModel)]="imageFilter" (ionChange)="filterImages()" value="all" style="margin-bottom: 12px;">
+          <ion-segment-button value="all">All</ion-segment-button>
+          <ion-segment-button value="anomalies">Anomalies</ion-segment-button>
+        </ion-segment>
+        <!--filter the anomalies etc-->   
+
+        <div class="image-grid">
+          <div class="history-image-item" *ngFor="let image of imageHistory " (click)="openImageModal(image)">
+            <img [src]="image.image_url" [alt]="image.date" class="history-image" />
+            <!--ANOMALY BADGE -->
+            <div class="anomaly-badge" *ngIf="image.anomaly">Anomaly</div>
+            <!--ANOMALY BADGE -->
+            <div class="history-date">{{ image.date }}</div>
+          </div>
+
+        </div>
+        <div class="no-history" *ngIf="imageHistory.length === 0">
+          <p>No image history available</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+<!--Fullscreen modal for image prev and anomaly check-->
+    <ion-modal [isOpen]="showImageModal" (didDismiss)="closeImageModal()">
+      <ng-template>
+        <ion-content>
+          <div class="modal-image-container">
+            <img [src]="selectedImage?.image_url" alt="Selected Plant" class="modal-image" />
+            <div class="history-date">{{ selectedImage?.date }}</div>
+            <ion-button expand="block" color="primary" (click)="checkAnomaly(selectedImage)">
+              Check Anomaly
+            </ion-button>
+            <div *ngIf="anomalyResult">
+              <ion-label>
+                <b>Result:</b>
+                <span [ngClass]="{'anomaly-yes': anomalyResult.is_anomaly, 'anomaly-no': !anomalyResult.is_anomaly}">
+                  {{ anomalyResult.is_anomaly ? 'Anomaly Detected' : 'Normal' }}
+                </span>
+                <br>
+                <b>Reconstruction Error:</b> {{ anomalyResult.reconstruction_error }}
+              </ion-label>
+            </div>
+            <ion-button expand="block" fill="outline" color="medium" (click)="closeImageModal()">
+              Close
+            </ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>          
+
+  </div>
+</ion-content>

@@ -1,0 +1,313 @@
+<ion-header [class.hide-header]="headerService.headerHidden">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Growth Predictions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Growth Predictions</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="refreshPredictions()" [disabled]="isLoading">
+        <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>-->
+
+<ion-content [fullscreen]="true">
+  <div class="wrapper">
+    
+      <!-- Row Selection Card -->
+      <ion-card class="row-selection-card">
+        <ion-card-content>
+          <div class="row-cycle-flex">
+            <!-- Left half: Row & Cycle buttons -->
+            <div class="row-cycle-left">
+              <div>
+                <div class="row-btn-label">Row</div>
+                <div class="row-btn-group">
+                  <ion-button class="row-btn" [class.active]="currentRow === 1" (click)="selectRow(1)" fill="outline">1</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentRow === 2" (click)="selectRow(2)" fill="outline">2</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentRow === 3" (click)="selectRow(3)" fill="outline">3</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentRow === 4" (click)="selectRow(4)" fill="outline">4</ion-button>
+                </div>
+              </div>
+              <div style="margin-top: 12px;">
+                <div class="row-btn-label">Cycle</div>
+                <div class="row-btn-group">
+                  <ion-button class="row-btn" [class.active]="currentCycle === 1" (click)="selectCycle(1)" fill="outline">1</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentCycle === 2" (click)="selectCycle(2)" fill="outline">2</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentCycle === 3" (click)="selectCycle(3)" fill="outline">3</ion-button>
+                  <ion-button class="row-btn" [class.active]="currentCycle === 4" (click)="selectCycle(4)" fill="outline">4</ion-button>
+                </div>
+              </div>
+            </div>
+            <!-- Divider -->
+            <div class="row-cycle-divider"></div>
+            <!-- Right half: Other content (empty, just like live monitoring) -->
+            <div class="row-cycle-right">
+              <div class="other-content">
+                <!-- Leave empty or add future content here -->
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading predictions...</p>
+    </div>
+
+    <!-- Error message -->
+    <ion-card *ngIf="!isLoading && !hasData && errorMessage" class="error-card">
+      <ion-card-content>
+        <div class="error-content">
+          <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+          <p class="error-message">{{ errorMessage }}</p>
+          <ion-button fill="outline" (click)="refreshPredictions()">
+            <ion-icon name="refresh-outline" slot="start"></ion-icon>
+            Try Again
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Data cards - only show if we have data -->
+    <div *ngIf="!isLoading && hasData">
+      
+      <!-- Last Updated Info -->
+      <ion-card class="last-updated-card">
+        <ion-card-content>
+          <div class="last-updated-content">
+            <ion-icon name="time-outline" class="update-icon"></ion-icon>
+            <span class="update-text">Last updated: {{ lastUpdated }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Sensor Risk Predictions Card -->
+      <ion-card class="predictions-card">
+        <ion-card-header>
+          <ion-card-title>Sensor Risk Predictions</ion-card-title>
+          <ion-card-subtitle>Row {{ currentRow }} - Cycle {{ currentCycle }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="prediction-content">
+            <p class="prediction-text">{{ predictionData.message || 'No prediction message available' }}</p>
+            <div class="confidence-section" *ngIf="predictionData.confidence !== null && predictionData.confidence > 0">
+              <div class="confidence-bar">
+                <div class="confidence-fill" [style.width.%]="predictionData.confidence"></div>
+              </div>
+              <p class="confidence-text">AI Confidence: {{ predictionData.confidence }}%</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Detailed Predictions Card -->
+      <ion-card class="detailed-predictions-card" *ngIf="harvestPredictions.estimatedDays > 0 || harvestPredictions.confidenceLevel > 0">
+        <ion-card-header>
+          <ion-card-title>Detailed Predictions</ion-card-title>
+          <ion-card-subtitle>Advanced growth analytics</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="predictions-grid">
+            <div class="prediction-item" *ngIf="harvestPredictions.estimatedDays > 0">
+              <div class="prediction-value">{{ harvestPredictions.estimatedDays }}</div>
+              <div class="prediction-label">Days to Harvest</div>
+            </div>
+            <div class="prediction-item" *ngIf="harvestPredictions.confidenceLevel > 0">
+              <div class="prediction-value">{{ harvestPredictions.confidenceLevel }}%</div>
+              <div class="prediction-label">Confidence</div>
+            </div>
+            <div class="prediction-item" *ngIf="harvestPredictions.growthStage && harvestPredictions.growthStage !== 'Unknown'">
+              <div class="prediction-value">{{ harvestPredictions.growthStage }}</div>
+              <div class="prediction-label">Growth Stage</div>
+            </div>
+            <div class="prediction-item" *ngIf="harvestPredictions.qualityScore > 0">
+              <div class="prediction-value">{{ harvestPredictions.qualityScore }}%</div>
+              <div class="prediction-label">Quality Score</div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Growth Timeline Card -->
+      <ion-card class="timeline-card" *ngIf="growthTimeline.length > 0">
+        <ion-card-header>
+          <ion-card-title>Growth Timeline</ion-card-title>
+          <ion-card-subtitle>Plant development stages</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="timeline-container">
+            <div class="timeline-item" *ngFor="let stage of growthTimeline">
+              <div class="timeline-icon">
+                <ion-icon [name]="getStageIcon(stage.status)" [color]="getStageColor(stage.status)"></ion-icon>
+              </div>
+              <div class="timeline-content">
+                <h4 class="timeline-title">{{ stage.stage }}</h4>
+                <p class="timeline-days">{{ stage.days }} days</p>
+              </div>
+              <div class="timeline-status">
+                <ion-badge [color]="getStageColor(stage.status)">{{ stage.status }}</ion-badge>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- No Timeline Data -->
+      <ion-card class="no-data-card" *ngIf="growthTimeline.length === 0">
+        <ion-card-content>
+          <div class="no-data-content">
+            <ion-icon name="leaf-outline" class="no-data-icon"></ion-icon>
+            <p>No growth timeline data available for this row and cycle.</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+    <!-- Prediction Mode Tabs -->
+    <ion-segment [(ngModel)]="activeTab" style="margin-bottom: 16px;">
+      <ion-segment-button value="lstm">Sensor LSTM</ion-segment-button>
+      <ion-segment-button value="fuzzy">Fuzzy Risk</ion-segment-button>
+      <ion-segment-button value="image">Image Anomaly</ion-segment-button>
+    </ion-segment>
+
+    <!-- Sensor LSTM Quick Test Tab -->
+    <div *ngIf="activeTab === 'lstm'">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Sensor LSTM Quick Test</ion-card-title>
+          <ion-card-subtitle>Enter sensor values to predict growth status</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">pH</ion-label>
+              <ion-input type="number" [(ngModel)]="lstmInput.ph"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">EC</ion-label>
+              <ion-input type="number" [(ngModel)]="lstmInput.ec"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">TDS</ion-label>
+              <ion-input type="number" [(ngModel)]="lstmInput.tds"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Water Temp</ion-label>
+              <ion-input type="number" [(ngModel)]="lstmInput.water_temp"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Lux</ion-label>
+              <ion-input type="number" [(ngModel)]="lstmInput.lux"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Air Temp</ion-label>
+              <ion-input type="number" [(ngModel)]="lstmInput.air_temp"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Humidity</ion-label>
+              <ion-input type="number" [(ngModel)]="lstmInput.humidity"></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" color="primary" (click)="predictLSTM()" [disabled]="lstmLoading">
+            Predict
+          </ion-button>
+          <div *ngIf="lstmResult">
+            <ion-badge [color]="lstmResult.prediction === 'Good' ? 'success' : 'danger'">
+              {{ lstmResult.prediction }}
+            </ion-badge>
+            <span *ngIf="lstmResult.confidence">Confidence: {{ (lstmResult.confidence * 100) | number:'1.0-0' }}%</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Fuzzy Risk Tab -->
+    <div *ngIf="activeTab === 'fuzzy'">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Fuzzy Risk</ion-card-title>
+          <ion-card-subtitle>Enter values to assess risk level</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">pH</ion-label>
+              <ion-input type="number" [(ngModel)]="fuzzyInput.ph"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Temperature</ion-label>
+              <ion-input type="number" [(ngModel)]="fuzzyInput.temperature"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Humidity</ion-label>
+              <ion-input type="number" [(ngModel)]="fuzzyInput.humidity"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Profile</ion-label>
+              <ion-select [(ngModel)]="fuzzyInput.profile">
+                <ion-select-option value="online">Online</ion-select-option>
+                <ion-select-option value="sir_popoy">Sir Popoy</ion-select-option>
+                <!-- Add more profiles as needed -->
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <ion-button expand="block" color="primary" (click)="predictFuzzy()" [disabled]="fuzzyLoading">
+            Predict
+          </ion-button>
+          <div *ngIf="fuzzyResult">
+            <ion-badge [color]="getRiskColor(fuzzyResult.risk_level)">
+              {{ fuzzyResult.risk_level | titlecase }} Risk
+            </ion-badge>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Image Anomaly Tab -->
+    <div *ngIf="activeTab === 'image'">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title> Image Anomaly</ion-card-title>
+          <ion-card-subtitle>Check for anomalies in plant images</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <input type="file" accept="image/*" hidden #imageInput (change)="onImageSelected($event)">
+          <ion-button expand="block" color="primary" (click)="imageInput.click()">
+            Select from Gallery
+          </ion-button>
+          <ion-button expand="block" color="secondary" (click)="captureImage()">
+  Capture
+</ion-button>
+<input type="file" accept="image/*" capture="environment" hidden #captureInput (change)="onImageSelected($event)">
+          <div *ngIf="selectedImagePreview" style="margin: 16px 0;">
+            <img [src]="selectedImagePreview" alt="Selected" style="max-width: 100%; border-radius: 8px;">
+          </div>
+          <ion-button expand="block" color="success" (click)="predictImageAnomaly()" [disabled]="imageLoading || !selectedImageFile">
+            Predict
+          </ion-button>
+          <div *ngIf="imageResult">
+            <ion-badge [color]="imageResult.is_anomaly ? 'danger' : 'success'">
+              {{ imageResult.is_anomaly ? 'Anomaly Detected' : 'Normal' }}
+            </ion-badge>
+            <span>MSE: {{ imageResult.reconstruction_error }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </div>
+</ion-content>

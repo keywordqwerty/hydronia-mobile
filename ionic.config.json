@@ -1,0 +1,7 @@
+{
+  "name": "hydronia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

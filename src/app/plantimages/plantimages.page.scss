@@ -1,0 +1,389 @@
+ion-header{
+  padding-top: var(--ion-safe-area-top);
+  
+}
+ion-toolbar {
+  min-height:  85px;
+  padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available
+  --background: #f4fde8 !important;
+}
+
+
+//row button selection 
+.row-selection-card {
+  margin-bottom: 1rem;
+  
+  .row-btn-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    
+    .row-btn {
+      flex: 1;
+      min-width: 60px;
+      --border-color: #e0e0e0;
+      --color: #666666;
+      --background: transparent;
+      
+      &.active {
+        --background: #2a922f;
+        --color: white;
+        --border-color: #2a922f;
+        font-weight: bold;
+      }
+      
+      &:hover {
+        --background: rgba(42, 146, 47, 0.1);
+        --color: #2a922f;
+      }
+    }
+  }
+}
+
+.wrapper {
+  padding: 1rem;
+  background: linear-gradient(135deg, #eeffee 0%, #f4fde8 100%);
+  margin-top: 2.5rem;
+  min-height: 100vh; /* ensures the gradient covers the whole view */
+}
+
+.plantImages-card {
+  margin-bottom: 1rem;
+}
+
+.plant-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 1rem;
+  min-height: 250px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.plant-image {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.capture-date-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.plant-image-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// AI Health Analysis styles
+.ai-health-analysis-card {
+  margin-bottom: 1rem;
+}
+
+.health-score-section {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.health-score-display {
+  margin-bottom: 1em;
+}
+
+.health-score {
+  font-size: 3em;
+  font-weight: bold;
+  color: #2dd36f;
+}
+
+.health-score-total {
+  font-size: 1.5em;
+  color: #666;
+}
+
+.health-bar-container {
+  margin-bottom: 1em;
+}
+
+.health-bar {
+  width: 100%;
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.5em;
+}
+
+.health-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 6px;
+}
+
+.health-status {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.detected-conditions {
+  margin-top: 1.5em;
+}
+
+.detected-conditions h4 {
+  margin-bottom: 1em;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.conditions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.condition-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.8em;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-primary);
+}
+
+.condition-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.condition-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.condition-severity {
+  font-size: 0.85em;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.no-conditions {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 1em;
+  background: #f0f8f0;
+  border-radius: 8px;
+  color: #2dd36f;
+  font-weight: 500;
+}
+
+// Image History styles
+.image-history-card {
+  margin-bottom: 1rem;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.history-image-item {
+  text-align: center;
+}
+
+.history-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.history-date {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.no-history {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+//CYCLE PICKER  BUTTON
+.cycle-btn-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.cycle-btn.active {
+  background: #2a922f;
+  color: #fff;
+}
+
+
+//DATE RANGE 
+.date-range-group {
+  display: flex;
+  gap: 8px;
+}
+
+.date-btn {
+  min-width: 60px;
+  --background: transparent;
+  --color: #666;
+  --border-color: #e0e0e0;
+  border-radius: 8px;
+  font-size: 1em;
+  height: 38px;
+  text-align: center;
+}
+
+//ANOMALY AND OPENIMAGES MODAL
+.anomaly-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #e53935;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 0.8em;
+  z-index: 2;
+}
+.modal-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+.modal-image {
+  max-width: 90vw;
+  max-height: 60vh;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.anomaly-yes { color: #e53935; font-weight: bold; }
+.anomaly-no { color: #2a922f; font-weight: bold; }
+
+
+
+//for row cycle date range
+
+.row-selection-card {
+  margin-bottom: 1rem;
+  border-radius: 10%;
+  height: 180px;
+  display: flex;
+  align-items: stretch;
+  background: white;
+  .row-btn-group {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.7em;
+    .row-btn {
+      --background: #ffffff;
+      --color: #080808;
+      --padding-top: 2px;
+      --padding-bottom: 2px;
+      --padding-start: 10px;
+      --padding-end: 10px;
+      --border-radius: 12px;
+      font-size: 0.85em;
+      min-width: 0;
+      width: auto;
+      line-height: 1;
+      &.active {
+        --background: #1f7a26 !important;
+        --color: white !important;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.row-cycle-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 22.7rem;
+  height: 180px;
+  left: -21px;
+  position: relative;
+  top: -19px;
+}
+
+.row-cycle-left {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0;
+  margin-top: 3px;
+}
+
+.row-cycle-right {
+  flex: 0 0 120px;   // Fixed width for right side
+  max-width: 120px;  // Adjust as needed
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: -18px;
+  padding: 0;
+  margin-top: 3px;
+  margin-right: 31px;
+}
+
+.row-cycle-right{
+  margin-left: 1px;
+}
+
+
+.row-cycle-divider {
+  width: 2px;
+  background: green;
+  margin: 0 12px;
+  border-radius: 2px;
+}
+
+.row-btn-label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: -12px;
+  text-align: center;
+  color: #000000;
+}
+
+.date-range-group {
+  display: flex;
+  flex-direction: column;   // stack date selects vertically
+  gap: 0.5em;               // space between selects
+  align-items: stretch;     // make selects fill the width
+}

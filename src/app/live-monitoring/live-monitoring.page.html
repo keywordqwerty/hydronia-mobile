@@ -1,0 +1,121 @@
+<ion-header [class.hide-header]="headerService.headerHidden">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Live Monitoring</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="headerService.onScroll($event)">
+  <div class="wrapper">
+    <!--<div class="page-title">
+      Live Monitoring
+    </div> -->
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading sensor data...</p>
+    </div>
+
+    <!--  Row selection buttons -->
+    <!-- Row Selection Card -->
+   <ion-card class="row-selection-card">
+      <ion-card-content>
+        <div class="row-cycle-flex">
+          <!-- Left half: Row & Cycle buttons -->
+         <div class="row-cycle-left">
+      <!-- Row buttons group -->
+      <div>
+        <div class="row-btn-label">Row</div>
+        <div class="row-btn-group">
+          <ion-button class="row-btn" [class.active]="currentRow === 1" (click)="selectRow(1)" fill="outline">1</ion-button>
+          <ion-button class="row-btn" [class.active]="currentRow === 2" (click)="selectRow(2)" fill="outline">2</ion-button>
+          <ion-button class="row-btn" [class.active]="currentRow === 3" (click)="selectRow(3)" fill="outline">3</ion-button>
+          <ion-button class="row-btn" [class.active]="currentRow === 4" (click)="selectRow(4)" fill="outline">4</ion-button>
+        </div>
+      </div>
+      <!-- Cycle buttons group -->
+      <div style="margin-top: 12px;">
+        <div class="row-btn-label">Cycle</div>
+        <div class="row-btn-group">
+          <ion-button class="row-btn" [class.active]="currentCycle === 1" (click)="selectCycle(1)" fill="outline">1</ion-button>
+          <ion-button class="row-btn" [class.active]="currentCycle === 2" (click)="selectCycle(2)" fill="outline">2</ion-button>
+          <ion-button class="row-btn" [class.active]="currentCycle === 3" (click)="selectCycle(3)" fill="outline">3</ion-button>
+          <ion-button class="row-btn" [class.active]="currentCycle === 4" (click)="selectCycle(4)" fill="outline">4</ion-button>
+        </div>
+      </div>
+    </div>
+          <!-- Divider -->
+          <div class="row-cycle-divider"></div>
+          <!-- Right half: Other content -->
+          <div class="row-cycle-right">
+            <div class="other-content">
+
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+   
+
+    <!-- Real-time Data Card -->
+    <div class="sensor-grid">
+      <ion-card class="sensor-card">
+        <ion-card-header>
+          <ion-icon name="water-outline" class="sensor-icon"></ion-icon>
+          <ion-card-title>pH Level</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="sensor-val-content">
+          <span class="sensor-value">{{ sensorData.ph || 'N/A' }}</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="sensor-card">
+        <ion-card-header>
+          <ion-icon name="thermometer-outline" class="sensor-icon"></ion-icon>
+          <ion-card-title>Temperature</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="sensor-val-content">
+          <span class="sensor-value">{{ sensorData.temperature || 'N/A' }}°C</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="sensor-card">
+        <ion-card-header>
+          <ion-icon name="cloud-outline" class="sensor-icon"></ion-icon>
+          <ion-card-title>Humidity</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="sensor-val-content">
+          <span class="sensor-value">{{ sensorData.humidity || 'N/A' }}%</span>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="sensor-card">
+        <ion-card-header>
+          <ion-icon name="flash-outline" class="sensor-icon"></ion-icon>
+          <ion-card-title>EC (mS/cm)</ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="sensor-val-content">
+          <span class="sensor-value">{{ sensorData.ec || 'N/A' }}</span>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+
+     <!-- Chart Card -->
+    <ion-card class="monitoring-card">
+      <ion-card-header>
+        <ion-card-title>Historical Data</ion-card-title>
+        <ion-card-subtitle>Row {{ currentRow }} - Cycle {{ currentCycle }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="chart-container">
+          <canvas #lineChart></canvas>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    
+  </div>
+</ion-content>

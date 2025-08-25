@@ -1,0 +1,106 @@
+<ion-header [class.hide-header]="headerService.headerHidden">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="manual-logs-container">
+    
+    <!-- Header Info Card -->
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title>Manual Logs</ion-card-title>
+        <ion-card-subtitle>Record and track manual observations and activities</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button expand="block" color="success" (click)="addNewLog()">
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+          Add New Log Entry
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Logs List -->
+    <ion-card class="logs-card">
+      <ion-card-header>
+        <ion-card-title>Log Entries</ion-card-title>
+        <ion-card-subtitle>{{ manualLogs.length }} total entries</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        
+        <!-- Loading State -->
+        <div class="loading-container" *ngIf="isLoading">
+          <ion-spinner></ion-spinner>
+          <p>Loading logs...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-container" *ngIf="!isLoading && errorMessage">
+          <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+          <p class="error-message">{{ errorMessage }}</p>
+          <ion-button fill="outline" (click)="refreshLogs()">
+            <ion-icon name="refresh-outline" slot="start"></ion-icon>
+            Try Again
+          </ion-button>
+        </div>
+
+        <!-- Logs List -->
+        <div class="logs-container" *ngIf="!isLoading && !errorMessage">
+          <div class="log-entry" *ngFor="let log of manualLogs; let i = index">
+            <div class="log-header">
+              <div class="log-type-badge">
+                <ion-icon [name]="getLogTypeIcon(log.tag || log.type || 'Manual')" [color]="getLogTypeColor(log.tag || log.type || 'Manual')"></ion-icon>
+                <ion-badge [color]="getLogTypeColor(log.tag || log.type || 'Manual')">{{ log.tag || log.type || 'Manual' }}</ion-badge>
+              </div>
+             <!-- <div class="log-actions">
+                <ion-button fill="clear" size="small" (click)="deleteLog(log.id)">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+              </div> -->
+            </div>
+            
+            <div class="log-content">
+              <p class="log-message">{{ log.note || log.message }}</p>
+              <div class="log-metadata">
+                <span class="log-date">
+                  <ion-icon name="calendar-outline"></ion-icon>
+                  {{ formatDate(log.timestamp) }}
+                </span>
+                <span class="log-row-cycle" *ngIf="log.row && log.cycle">
+                  <ion-icon name="grid-outline"></ion-icon>
+                  Row {{ log.row }} - Cycle {{ log.cycle }}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Empty State -->
+          <div class="no-logs" *ngIf="manualLogs.length === 0">
+            <ion-icon name="document-text-outline" size="large" color="medium"></ion-icon>
+            <h3>No manual logs found</h3>
+            <p>Start by adding your first log entry to track activities and observations.</p>
+            <ion-button fill="outline" color="primary" (click)="addNewLog()">
+              <ion-icon name="add-outline" slot="start"></ion-icon>
+              Add First Log
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="queuedSensorReadings.length > 0">
+      <ion-card-header>
+        <ion-card-title>Sensor Readings Queued</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngFor="let r of queuedSensorReadings">
+          <span>{{ r.timestamp }} - pH: {{ r.ph }}, EC: {{ r.ec }}, Temp: {{ r.temperature }}, Humidity: {{ r.humidity }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>

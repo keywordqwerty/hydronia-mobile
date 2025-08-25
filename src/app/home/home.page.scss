@@ -1,0 +1,625 @@
+
+.hide-header { //for hide header when scroll
+  transform: translateY(-100%);     
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+ion-header{
+  padding-top: var(--ion-safe-area-top);
+  background: transparent !important;
+  --background: transparent !important;
+}
+ion-toolbar {
+  min-height:  85px;
+  padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available
+  --background: #f4fde8 !important;
+}
+
+.wrapper{
+   background: linear-gradient(135deg, #eeffee 0%, #f4fde8 100%);
+   margin-top: 2.5rem;
+   min-height: 100vh; /* ensures the gradient covers the whole view */
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1em;
+}
+
+
+.title{
+
+}
+
+.dashboard-title-flex {
+  display: flex;
+  align-items: center;      // Vertically center icon and text
+  justify-content: center;  // Horizontally center as a block
+  gap: 0.7em;               // Space between icon and text
+}
+
+.dashboard-title{
+  color: #2a922f; 
+}
+
+.cardDiv{
+
+}
+
+#alerts{
+  --background: white;
+  --color: black;
+  text-transform: none;
+}
+
+#switch-role{
+  --background: white;
+  --color: black;
+  text-transform: none;
+}
+
+//ION CARDS
+ion-card{
+  --background: white;
+  --color: black;
+}
+
+.card-highlight {
+  display: inline-block;
+  margin-top: 1em;
+  padding: 0.4em 1.2em;
+  background: #e6f3e2;
+  color: #000000;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.8em;
+  box-shadow: 0 2px 6px rgba(42,146,47,0.08);
+  letter-spacing: 0.5px;
+}
+
+.row-btn-group {
+  display: flex;
+  gap: 0.5em; /* space between buttons */
+  flex-wrap: wrap; /* allows wrapping on small screens */
+  margin-top: 0.7em;
+}
+
+.row-btn {
+  --background: #2a922f;
+  --color: #fff; 
+  --padding-top: 2px;
+  --padding-bottom: 2px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --border-radius: 12px;
+  font-size: 0.85em;
+  min-width: 0;
+  width: auto;
+  line-height: 1;
+}
+
+ion-card-title {
+  font-size: 1rem; // or any size you prefer, e.g., 0.9rem, 14px
+  
+}
+
+#phNum{
+  font-size: 2.5em;
+  color: #2a922f;
+}
+
+#optimal{
+  color: #2a922f;
+}
+
+.action-btn {
+  --background: #2a922f;
+  --background-activated: #1f7a26;
+  --color: white;
+  --border-radius: 8px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  width: 100%;
+  height: 40px;
+  font-size: 0.9em;
+  text-transform: none;
+}
+
+
+swiper-container {
+  width: 100%;
+  height: auto;
+  padding: 5px 0;
+}
+
+swiper-slide {
+  width: auto;
+  height: auto;
+}
+
+
+
+//PLANTS IMAGES 
+.plant-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 1rem;
+  min-height: 250px; /* Adjust height as needed */
+}
+
+.plant-image {
+  max-width: 100%;
+  max-height: 200px; /* Adjust as needed */
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.capture-date-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.plantImages-card {
+  .plant-image-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+}
+
+//AI HEALTH ANALYSIS
+.ai-health-analysis-card {
+  margin-top: 1em;
+}
+
+.health-score-section {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.health-score-display {
+  margin-bottom: 1em;
+}
+
+.health-score {
+  font-size: 3em;
+  font-weight: bold;
+  color: #2dd36f;
+}
+
+.health-score-total {
+  font-size: 1.5em;
+  color: #666;
+}
+
+.health-bar-container {
+  margin-bottom: 1em;
+}
+
+.health-bar {
+  width: 100%;
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.5em;
+}
+
+.health-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 6px;
+}
+
+.health-status {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.detected-conditions {
+  margin-top: 1.5em;
+}
+
+.detected-conditions h4 {
+  margin-bottom: 1em;
+  color: #333;
+  font-size: 1.1em;
+}
+
+.conditions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.condition-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.8em;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-primary);
+}
+
+.condition-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.condition-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.condition-severity {
+  font-size: 0.85em;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.no-conditions {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 1em;
+  background: #f0f8f0;
+  border-radius: 8px;
+  color: #2dd36f;
+  font-weight: 500;
+}
+
+//STYLING FOR ROW BUTTONS
+.row-btn.active {
+  --background: #1f7a26 !important;
+  --color: white !important;
+  font-weight: bold;
+}
+
+.warning-message {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #fff3cd;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #856404;
+  
+  ion-icon {
+    margin-right: 8px;
+  }
+}
+
+
+
+
+
+
+//metrics
+.metrics-scroll-row {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 8px 0 16px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.metrics-scroll-row::-webkit-scrollbar {
+  display: none;
+}
+.metric-card {
+  min-width: 90px;
+  max-width: 100px;
+  flex: 0 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  text-align: center;
+  padding: 8px 0;
+}
+.metric-label {
+  font-size: 0.9em;
+  color: var(--ion-color-medium);
+  margin-bottom: 2px;
+}
+.metric-value {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.metric-unit {
+  font-size: 0.8em;
+  color: var(--ion-color-step-600, #888);
+}
+
+.metric-value.success {
+  color: #2dd36f; // green for optimal
+}
+.metric-value.warning {
+  color: #ffc409; // orange for warning
+}
+.metric-value.danger {
+  color: #eb445a; // red for not good
+}
+
+
+//MINI CHARTS
+.mini-charts-buttons-row {
+  display: flex;
+  flex-direction: row;
+//  overflow-x: auto;
+  gap: 8px;
+  padding: 8px 0 12px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.mini-charts-buttons-row::-webkit-scrollbar {
+  display: none;
+}
+.mini-chart-btn {
+  background: #2a922f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85em;
+  padding: 8px 28px;
+  min-width: 90px;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s, background 0.2s;
+  font-weight: 500;
+  outline: none;
+  line-height: 1.2;
+  margin: 0 2px;
+  white-space: nowrap;
+}
+.mini-chart-btn.active,
+.mini-chart-btn:focus,
+.mini-chart-btn:hover {
+  background: #1f7a26 !important;
+  color: #fff !important;
+  opacity: 1;
+  font-weight: bold;
+}
+
+swiper-container {
+  width: 100%;
+}
+
+swiper-slide {
+  width: auto; /* let buttons size themselves */
+}
+
+//UPCOMING RISK------------------
+.risk-card {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  background: #fffbe7;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.08);
+}
+.risk-card ion-card-title {
+  color: #b26a00;
+}
+//UPCOMING RISK------------------
+
+
+//LATEST IMAGES AND ENLARGE PIC--------------
+.latest-images-card {
+  margin-bottom: 16px;
+}
+.carousel-image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.carousel-image {
+  width: 90vw;
+  max-width: 320px;
+  max-height: 180px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.anomaly-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+}
+.carousel-date {
+  text-align: center;
+  margin-top: 4px;
+  font-size: 0.9em;
+  color: #888;
+}
+.modal-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+.modal-image {
+  max-width: 95vw;
+  max-height: 70vh;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+//LATEST IMAGES AND ENLARGE PIC--------------
+
+
+//cycle buttons
+.cycle-btn-group {
+  display: flex;
+  gap: 0.5em; /* space between buttons */
+  flex-wrap: wrap; /* allows wrapping on small screens */
+  margin-top: 0.7em;
+}
+
+.cycle-btn {
+  --background: #2a922f;
+  --color: #fff; 
+  --padding-top: 2px;
+  --padding-bottom: 2px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --border-radius: 12px;
+  font-size: 0.85em;
+  min-width: 0;
+  width: auto;
+  line-height: 1;
+}
+
+
+//alerts
+.alerts-top-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 1.2rem 0 0;
+  z-index: 10;
+}
+
+.alerts-icon {
+  font-size: 1.5rem;
+  color: #000000;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  margin-right: 0.2rem;
+  margin-top: 24px;
+}
+
+.alerts-count {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000000;
+  margin-top: 21px;
+} 
+//alerts
+
+.row-selection-card {
+  margin-bottom: 1rem;
+  border-radius: 10%;
+  height: 180px; // or 180px, match live monitoring
+  display: flex;
+
+  align-items: stretch;
+  .row-btn-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    .row-btn {
+      flex: 1;
+      min-width: 10px;
+      --border-color: #e0e0e0;
+      --color: #666666;
+      --background: transparent;
+      &.active {
+        --background: #2a922f;
+        --color: white;
+        --border-color: #2a922f;
+        font-weight: bold;
+      }
+      &:hover {
+        --background: rgba(42, 146, 47, 0.1);
+        --color: #2a922f;
+      }
+    }
+  }
+}
+
+.row-cycle-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 22.7rem;
+  height: 180px;
+  left: -11px;
+  position: relative;
+  top: -19px;
+}
+
+.row-cycle-left, .row-cycle-right {
+  flex: -1 1 0;
+  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: -0.5rem 0;
+  margin-top: 3px;
+}
+
+.row-cycle-divider {
+  width: 2px;
+  background: green;
+  margin: 0 12px;
+  border-radius: 2px;
+}
+
+.row-btn-label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-align: center;
+  font: bold;
+  color: #000000;
+}
+
+
+
+
+
+
+
+.active-crop-info {
+  text-align: left;
+  padding: -0.5rem 0;
+}
+
+.active-crop-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.active-crop-subtitle {
+  font-size: 0.95rem;
+  color: #2a922f;
+  margin-bottom: 2px;
+}
+
+.card-highlight {
+  font-weight: bold;
+  color: #2a922f;
+  margin-top: 6px;
+}
