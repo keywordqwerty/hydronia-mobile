@@ -7,6 +7,11 @@ ion-toolbar {
   padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available
   --background: #f4fde8 !important;
 }
+.hide-header { //for hide header when scroll
+  transform: translateY(-100%);     
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
 
 .wrapper {
    background: linear-gradient(135deg, #eeffee 0%, #f4fde8 100%);

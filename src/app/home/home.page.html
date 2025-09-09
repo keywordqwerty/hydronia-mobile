@@ -10,11 +10,9 @@
 
 <ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="onScroll($event)">
   <div class="wrapper">
-
    
     <div class="cardDiv">
      
-
       <!--MONITORING ROW-->
       <ion-card class="row-selection-card">
         <ion-card-content>
@@ -118,25 +116,25 @@
       <!-- END MINI-CHARTS SECTION -->
 
           <!-- LATEST IMAGES -->
-    <ion-card class="latest-images-card">
-      <ion-card-header>
-        <ion-card-title>Latest Images</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-slides [options]="imageCarouselOptions">
-          <ion-slide *ngFor="let img of latestImages">
-            <div class="carousel-image-container" (click)="openImageModal(img)">
-              <img [src]="img.image_url" [alt]="img.date" class="carousel-image" />
-              <ion-badge class="anomaly-badge" [color]="img.anomaly ? 'danger' : 'success'">
-                {{ img.anomaly ? 'Anomaly' : 'Normal' }}
-              </ion-badge>
-            </div>
-            <div class="carousel-date">{{ img.date | date:'short' }}</div>
-          </ion-slide>
-        </ion-slides>
-        <div *ngIf="latestImages.length === 0">No images found.</div>
-      </ion-card-content>
-    </ion-card>
+      <ion-card class="latest-images-card">
+        <ion-card-header>
+          <ion-card-title>Latest Images</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-slides [options]="imageCarouselOptions">
+            <ion-slide *ngFor="let img of latestImages">
+              <div class="carousel-image-container" (click)="openImageModal(img)">
+                <img [src]="img.image_url" [alt]="img.date" class="carousel-image" />
+                <ion-badge class="anomaly-badge" [color]="img.anomaly ? 'danger' : 'success'">
+                  {{ img.anomaly ? 'Anomaly' : 'Normal' }}
+                </ion-badge>
+              </div>
+              <div class="carousel-date">{{ img.date | date:'short' }}</div>
+            </ion-slide>
+          </ion-slides>
+          <div *ngIf="latestImages.length === 0">No images found.</div>
+        </ion-card-content>
+      </ion-card>
     <!-- LATEST IMAGES -->
 
     <!-- IMAGE ENLARGE -->
@@ -190,7 +188,7 @@
 </ion-content>
 
 
-      <ion-tab-bar color="light">
+<ion-tab-bar color="light">
   <ion-tab-button tab="live-monitoring" (click)="navigateToLiveMonitoring()">
     <ion-icon name="water-outline"></ion-icon>
     <ion-label>Live Monitoring</ion-label>

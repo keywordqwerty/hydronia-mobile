@@ -50,7 +50,7 @@ export class LiveMonitoringPage implements OnInit {
   constructor(
     private backendService: BackendService,
     private route: ActivatedRoute,
-    public headerService: HeaderScrollService,
+    public headerScrollService: HeaderScrollService,
   ) {}
 
   ngOnInit() {
@@ -68,7 +68,6 @@ export class LiveMonitoringPage implements OnInit {
   }
 
   //select row button
-  
 
   //select cycle button
   selectCycle(cycle: number) {
@@ -112,7 +111,8 @@ export class LiveMonitoringPage implements OnInit {
         this.liveData = data;
       });
     }
-  }  
+  }
+    
   ionViewDidEnter() {
     // Create chart when view enters
     setTimeout(() => {

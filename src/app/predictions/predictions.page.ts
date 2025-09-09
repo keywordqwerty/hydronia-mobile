@@ -68,7 +68,7 @@ export class PredictionsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private backendService: BackendService,
-    public headerService: HeaderScrollService,
+    public headerScrollService: HeaderScrollService,
   ) {}
 
   ngOnInit() {

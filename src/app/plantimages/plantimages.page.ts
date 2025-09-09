@@ -2,7 +2,7 @@ import { Component, OnInit,} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BackendService } from '../services/backend.service';
 import { QueueService } from '../services/offlinequeue.service';
-
+import { HeaderScrollService } from '../services/hide-scroll.service';
 @Component({
   selector: 'app-plantimages',
   templateUrl: './plantimages.page.html',
@@ -63,7 +63,8 @@ export class PlantimagesPage implements OnInit {
   constructor(
     private backendService: BackendService,
     private queueService: QueueService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public headerScrollService: HeaderScrollService,
   ) {}
 
   ngOnInit() {

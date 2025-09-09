@@ -362,7 +362,7 @@ export class HomePage {
     }
   }
 
-  //NAVIGATE TO CHARTING---------
+  //NAVIGATE TO live monitoring---------
   navigateToLiveMonitoring() {
   this.router.navigate(['/live-monitoring'], {
     queryParams: { 
@@ -371,7 +371,7 @@ export class HomePage {
     }
   });
 }
-  //NAVIGATE TO CHARTING-------------------
+//NAVIGATE TO live monitoring-------------------
 
   //NAVIGATE TO PLANT IMAGE---------
   navigateToPlantImages() {

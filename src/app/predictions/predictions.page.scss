@@ -1,7 +1,12 @@
 ion-header{
   padding-top: var(--ion-safe-area-top);
-  
 }
+.hide-header { //for hide header when scroll
+  transform: translateY(-100%);     
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
 ion-toolbar {
   min-height:  85px;
   padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available

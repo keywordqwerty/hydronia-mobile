@@ -1,4 +1,4 @@
-<ion-header [class.hide-header]="headerService.headerHidden">
+<ion-header [class.hide-header]="headerScrollService.headerHidden">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true" (ionScroll)="headerScrollService.onScroll($event)">
   <div class="manual-logs-container">
     
     <!-- Header Info Card -->

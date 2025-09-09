@@ -7,10 +7,13 @@ export class HeaderScrollService {
 
   onScroll(event: any) {
     const scrollTop = event.detail.scrollTop;
+    console.log('Scroll event:', scrollTop, 'Last:', this.lastScrollTop, 'Hidden:', this.headerHidden);
     if (scrollTop > this.lastScrollTop && scrollTop > 50) {
       this.headerHidden = true;
+      console.log('Header hidden');
     } else if (scrollTop < this.lastScrollTop) {
       this.headerHidden = false;
+      console.log('Header shown');
     }
     this.lastScrollTop = scrollTop;
   }

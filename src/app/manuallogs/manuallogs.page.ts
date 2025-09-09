@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { BackendService } from '../services/backend.service';
 import { HeaderScrollService } from '../services/hide-scroll.service';
 
+
 @Component({
   selector: 'app-manuallogs',
   templateUrl: './manuallogs.page.html',
@@ -22,7 +23,7 @@ export class ManuallogsPage implements OnInit {
     private route: ActivatedRoute,
     private alertController: AlertController,
     private backendService: BackendService,
-    public headerService: HeaderScrollService,
+    public headerScrollService: HeaderScrollService,
   ) {}
 
   ngOnInit() {
@@ -51,6 +52,9 @@ export class ManuallogsPage implements OnInit {
     );
   }
 
+onTestScroll(event: any) {
+  console.log('Test scroll:', event.detail.scrollTop);
+}
   // Create new log
   async addNewLog() {
     const alert = await this.alertController.create({
