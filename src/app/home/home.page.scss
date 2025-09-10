@@ -12,7 +12,7 @@ ion-header{
 }
 
 ion-toolbar {
-  min-height:  80px;
+  min-height:  75px;
   padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available
   --background: #f4fde8 !important;
 }

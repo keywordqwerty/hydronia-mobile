@@ -3,7 +3,7 @@ ion-header{
 }
 
 ion-toolbar {
-  min-height:  85px;
+  min-height:  75px;
   padding-top: env(safe-area-inset-top, 80px); // Uses device safe area if available
   --background: #f4fde8 !important;
 }
@@ -12,6 +12,8 @@ ion-toolbar {
   transition: transform 0.3s ease;
   will-change: transform;
 }
+
+
 
 .wrapper {
    background: linear-gradient(135deg, #eeffee 0%, #f4fde8 100%);
